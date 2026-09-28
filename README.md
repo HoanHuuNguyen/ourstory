@@ -5,9 +5,9 @@ Trang web tình yêu cá nhân, deploy qua GitHub Pages. Thuần HTML/CSS/JS —
 ## Cấu trúc
 
 ```
-index.html          # toàn bộ nội dung 7 section (hero, counter, story, gallery, letter, constellation, footer)
-css/style.css        # theme tím-hồng vũ trụ
-js/main.js            # starfield, counter, scroll-reveal, lightbox, constellation, music toggle
+index.html          # toàn bộ nội dung 9 section (hero, counter, story, gallery, letter, open-when, constellation, quotes, guestbook, footer)
+css/style.css        # theme pastel lãng mạn (hồng phấn · lavender · đào nhạt)
+js/main.js            # bokeh nền, counter, scroll-reveal, lightbox, open-when, constellation, quotes, guestbook, music toggle
 assets/photos/        # ảnh gallery — thay placeholder tại đây
 assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đây
 ```
@@ -25,8 +25,9 @@ assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đâ
    <img src="assets/photos/ten-anh.jpg" alt="mô tả">
    ```
 4. **Lá thư** — sửa nội dung trong `<p class="letter-body">` (section `#letter`).
-5. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
-6. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
+5. **Thư "Mở Khi..."** — sửa nội dung trong từng `<template id="letterTpl-...">` (section `#openwhen`). Muốn thêm phong thư mới: thêm 1 `.envelope-card` với `data-letter="ten-moi"` và 1 `<template id="letterTpl-ten-moi">` tương ứng.
+6. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
+7. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
 
 ## Sổ Lưu Bút (Guestbook)
 

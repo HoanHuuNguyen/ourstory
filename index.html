@@ -29,6 +29,7 @@
   <a href="#story" data-label="Câu chuyện"></a>
   <a href="#gallery" data-label="Kỷ niệm"></a>
   <a href="#letter" data-label="Thư tay"></a>
+  <a href="#openwhen" data-label="Mở khi..."></a>
   <a href="#constellation" data-label="Lý do yêu em"></a>
   <a href="#quotes" data-label="Câu nói hay"></a>
   <a href="#guestbook" data-label="Sổ lưu bút"></a>
@@ -171,6 +172,72 @@
   <p class="letter-hint">(Nội dung mẫu — hãy sửa lại bằng lời của chính bạn trong <code>index.html</code>)</p>
 </section>
 
+<!-- ============ OPEN WHEN LETTERS ============ -->
+<section id="openwhen" class="section openwhen-section">
+  <p class="section-eyebrow">✦ mở khi... ✦</p>
+  <h2 class="section-title">Những Lá Thư "Mở Khi..."</h2>
+  <p class="section-sub">Chạm vào phong thư hợp với cảm xúc hiện tại của em 💌 — nội dung mẫu, sửa lại theo lời thật của bạn trong các thẻ <code>&lt;template&gt;</code> bên dưới.</p>
+
+  <div class="envelope-grid" id="envelopeGrid">
+    <button class="envelope-card" data-letter="miss">
+      <span class="envelope-icon">💌</span>
+      <span class="envelope-label">Mở khi em nhớ anh</span>
+    </button>
+    <button class="envelope-card" data-letter="sad">
+      <span class="envelope-icon">🥺</span>
+      <span class="envelope-label">Mở khi em buồn</span>
+    </button>
+    <button class="envelope-card" data-letter="birthday">
+      <span class="envelope-icon">🎂</span>
+      <span class="envelope-label">Mở vào sinh nhật em</span>
+    </button>
+    <button class="envelope-card" data-letter="anniversary">
+      <span class="envelope-icon">❤️</span>
+      <span class="envelope-label">Mở vào ngày kỷ niệm</span>
+    </button>
+    <button class="envelope-card" data-letter="cantsleep">
+      <span class="envelope-icon">🌙</span>
+      <span class="envelope-label">Mở khi em không ngủ được</span>
+    </button>
+    <button class="envelope-card" data-letter="fight">
+      <span class="envelope-icon">😤</span>
+      <span class="envelope-label">Mở khi hai đứa giận nhau</span>
+    </button>
+  </div>
+
+  <!-- Nội dung từng lá thư — sửa trực tiếp trong các <template> bên dưới -->
+  <template id="letterTpl-miss">
+    <h3>💌 Gửi em, lúc em đang nhớ anh</h3>
+    <p>Nếu em đang đọc những dòng này vì nhớ anh, thì anh cũng đang nhớ em nhiều y như vậy, chỉ là chưa kịp nói ra thôi. Khoảng cách có thể xa, nhưng chưa bao giờ đủ xa để làm nhạt đi những gì anh dành cho em.</p>
+    <p>Nhắm mắt lại một chút, coi như anh đang ở ngay đây, ôm em một cái thật chặt nhé.</p>
+  </template>
+  <template id="letterTpl-sad">
+    <h3>🥺 Gửi em, lúc em đang buồn</h3>
+    <p>Anh không biết chuyện gì đang làm em buồn, nhưng anh biết chắc một điều: em không cần phải mạnh mẽ suốt lúc này. Cứ buồn một chút cũng được, anh vẫn ở đây.</p>
+    <p>Mọi chuyện rồi sẽ ổn thôi. Và dù có chuyện gì xảy ra, em vẫn luôn có anh.</p>
+  </template>
+  <template id="letterTpl-birthday">
+    <h3>🎂 Gửi em, vào ngày sinh nhật</h3>
+    <p>Chúc mừng sinh nhật người anh yêu nhất! Cảm ơn vì đã sinh ra trên đời này, và cảm ơn vì đã chọn đi cùng anh trên một đoạn đường.</p>
+    <p>Chúc em một tuổi mới thật nhiều sức khoẻ, thật nhiều niềm vui — và có anh ở bên chúc mừng mỗi năm như thế này.</p>
+  </template>
+  <template id="letterTpl-anniversary">
+    <h3>❤️ Gửi em, vào ngày kỷ niệm của chúng ta</h3>
+    <p>Một cột mốc nữa đã qua, và anh vẫn chắc chắn như ngày đầu: được yêu em là điều may mắn nhất của anh.</p>
+    <p>Cảm ơn em vì tất cả những ngày đã cùng nhau đi qua. Mong mình sẽ còn thật nhiều cột mốc nữa để kỷ niệm cùng nhau.</p>
+  </template>
+  <template id="letterTpl-cantsleep">
+    <h3>🌙 Gửi em, lúc em không ngủ được</h3>
+    <p>Nếu giờ này em vẫn còn thức, hãy thử gấp điện thoại lại, hít thở thật sâu một chút nhé. Ngày mai vẫn còn đó, và anh cũng vẫn còn đó.</p>
+    <p>Chúc em một giấc ngủ thật ngon — mơ về những điều đẹp, có cả anh trong đó cũng được 😌</p>
+  </template>
+  <template id="letterTpl-fight">
+    <h3>😤 Gửi em, lúc hai đứa đang giận nhau</h3>
+    <p>Anh biết bây giờ có thể cả hai đang khó chịu, nhưng anh muốn em biết: giận thì giận, thương thì vẫn thương y như vậy.</p>
+    <p>Mình nói chuyện lại khi cả hai bình tĩnh hơn nhé. Chuyện gì cũng có cách giải quyết, miễn là còn muốn giữ nhau.</p>
+  </template>
+</section>
+
 <!-- ============ CONSTELLATION OF REASONS ============ -->
 <section id="constellation" class="section constellation-section">
   <p class="section-eyebrow">✦ vì sao anh yêu em ✦</p>
@@ -272,6 +339,11 @@
     <div class="modal-placeholder"><span>📷</span></div>
     <p class="modal-caption" id="lightboxCaption"></p>
   </div>
+</div>
+
+<div class="modal" id="letterModal">
+  <button class="modal-close" id="letterModalClose" aria-label="Đóng">✕</button>
+  <div class="letter-modal-content" id="letterModalContent"></div>
 </div>
 
 <script src="js/main.js"></script>

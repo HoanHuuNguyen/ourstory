@@ -5,60 +5,85 @@
 /* ---------- CONFIG: chỉnh ngày bắt đầu yêu tại đây ---------- */
 const START_DATE = new Date('2026-08-03T00:00:00');
 
-/* ---------- Starfield background ---------- */
-(function starfield() {
+/* ---------- Pastel bokeh + floating hearts background ---------- */
+(function pastelSky() {
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d');
-  let stars = [];
+  const PALETTE = ['#ff9ec7', '#b48ee8', '#ffb877', '#ffd1e3', '#d8c4ff'];
+  let dots = [];
+  let hearts = [];
   let w, h;
 
   function resize() {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
-    const count = Math.floor((w * h) / 8000);
-    stars = Array.from({ length: count }, () => ({
+    const count = Math.floor((w * h) / 22000);
+    dots = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: Math.random() * 1.4 + 0.3,
-      speed: Math.random() * 0.02 + 0.005,
+      r: Math.random() * 5 + 2,
+      color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+      vy: Math.random() * 0.18 + 0.05,
+      sway: Math.random() * 0.6 + 0.2,
       phase: Math.random() * Math.PI * 2,
     }));
   }
 
-  let shootingStar = null;
-  function maybeSpawnShootingStar() {
-    if (!shootingStar && Math.random() < 0.006) {
-      const startX = Math.random() * w * 0.6;
-      shootingStar = { x: startX, y: -10, vx: 6, vy: 3, life: 0 };
+  function maybeSpawnHeart() {
+    if (hearts.length < 3 && Math.random() < 0.004) {
+      hearts.push({
+        x: Math.random() * w,
+        y: h + 20,
+        vy: Math.random() * 0.35 + 0.25,
+        sway: Math.random() * 0.8 + 0.3,
+        phase: Math.random() * Math.PI * 2,
+        size: Math.random() * 10 + 12,
+        color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+        life: 0,
+      });
     }
+  }
+
+  function drawHeart(x, y, size, color, alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    const topCurveHeight = size * 0.3;
+    ctx.moveTo(x, y + topCurveHeight);
+    ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + topCurveHeight);
+    ctx.bezierCurveTo(x - size / 2, y + (size + topCurveHeight) / 2, x, y + (size + topCurveHeight) / 1.4, x, y + size);
+    ctx.bezierCurveTo(x, y + (size + topCurveHeight) / 1.4, x + size / 2, y + (size + topCurveHeight) / 2, x + size / 2, y + topCurveHeight);
+    ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + topCurveHeight);
+    ctx.fill();
+    ctx.restore();
   }
 
   function draw(t) {
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#fff';
-    for (const s of stars) {
-      const twinkle = 0.5 + 0.5 * Math.sin(t * s.speed + s.phase);
-      ctx.globalAlpha = 0.25 + twinkle * 0.75;
+
+    for (const d of dots) {
+      const twinkle = 0.5 + 0.5 * Math.sin(t * 0.001 * d.sway + d.phase);
+      ctx.globalAlpha = 0.15 + twinkle * 0.35;
+      ctx.fillStyle = d.color;
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.arc(d.x + Math.sin(t * 0.0006 + d.phase) * 12, d.y, d.r, 0, Math.PI * 2);
       ctx.fill();
+      d.y -= d.vy;
+      if (d.y < -10) d.y = h + 10;
     }
     ctx.globalAlpha = 1;
 
-    maybeSpawnShootingStar();
-    if (shootingStar) {
-      const ss = shootingStar;
-      ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(ss.x, ss.y);
-      ctx.lineTo(ss.x - ss.vx * 6, ss.y - ss.vy * 6);
-      ctx.stroke();
-      ss.x += ss.vx;
-      ss.y += ss.vy;
-      ss.life++;
-      if (ss.x > w || ss.y > h || ss.life > 200) shootingStar = null;
-    }
+    maybeSpawnHeart();
+    hearts.forEach((hh) => {
+      hh.life++;
+      hh.y -= hh.vy;
+      const dx = Math.sin(hh.life * 0.02 * hh.sway) * 18;
+      const fadeIn = Math.min(1, hh.life / 60);
+      const fadeOut = hh.y < 80 ? hh.y / 80 : 1;
+      drawHeart(hh.x + dx, hh.y, hh.size, hh.color, 0.35 * fadeIn * Math.max(0, fadeOut));
+    });
+    hearts = hearts.filter((hh) => hh.y > -40);
 
     requestAnimationFrame(draw);
   }
@@ -121,6 +146,28 @@ const START_DATE = new Date('2026-08-03T00:00:00');
   items.forEach((item) => {
     item.addEventListener('click', () => {
       caption.textContent = item.dataset.caption || '';
+      modal.classList.add('open');
+    });
+  });
+
+  function close() { modal.classList.remove('open'); }
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+})();
+
+/* ---------- Open When letters ---------- */
+(function openWhenLetters() {
+  const cards = document.querySelectorAll('.envelope-card');
+  const modal = document.getElementById('letterModal');
+  if (!cards.length || !modal) return;
+  const content = document.getElementById('letterModalContent');
+  const closeBtn = document.getElementById('letterModalClose');
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const tpl = document.getElementById('letterTpl-' + card.dataset.letter);
+      content.innerHTML = tpl ? tpl.innerHTML : '';
       modal.classList.add('open');
     });
   });
