@@ -604,11 +604,17 @@ body {
   padding: 0.3rem;
 }
 .name-picker input[type="radio"] {
+  /* Ẩn nhưng vẫn giữ 1px để trình duyệt có thể focus/validate (input:required) —
+     dùng width/height:0 sẽ khiến form KHÔNG submit được khi có required. */
   position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  pointer-events: none;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 .name-picker label {
   flex: 1;

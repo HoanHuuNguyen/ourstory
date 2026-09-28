@@ -377,12 +377,23 @@ const START_DATE = new Date('2026-08-03T00:00:00');
       .join('');
   }
 
+  const statusEl = document.getElementById('guestbookStatus');
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const nameRadio = form.querySelector('input[name="guestbookNamePick"]:checked');
     const name = nameRadio ? nameRadio.value : '';
     const message = msgInput.value.trim();
-    if (!name || !message) return;
+
+    if (!name) {
+      if (statusEl) statusEl.textContent = '💡 Hãy chọn Hữu hoặc Ngân trước khi gửi nhé.';
+      return;
+    }
+    if (!message) {
+      if (statusEl) statusEl.textContent = '💡 Đừng để trống lời nhắn nhé.';
+      return;
+    }
+    if (statusEl) statusEl.textContent = '';
 
     const entries = load();
     entries.push({ id: Date.now().toString(36), name, message, time: new Date().toISOString() });
