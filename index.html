@@ -316,7 +316,11 @@
   -->
   <div class="guestbook-wrap">
     <form id="guestbookForm" class="guestbook-form">
-      <input type="text" id="guestbookName" class="guestbook-input" placeholder="Tên của bạn" maxlength="40" required>
+      <select id="guestbookName" class="guestbook-input guestbook-select" required>
+        <option value="" disabled selected>Bạn là...</option>
+        <option value="Hữu">Hữu</option>
+        <option value="Ngân">Ngân</option>
+      </select>
       <textarea id="guestbookMessage" class="guestbook-textarea" placeholder="Viết lời nhắn..." maxlength="500" rows="3" required></textarea>
       <button type="submit" class="guestbook-submit">Gửi lời nhắn 💌</button>
     </form>
