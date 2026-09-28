@@ -304,7 +304,7 @@ const START_DATE = new Date('2026-08-03T00:00:00');
 })();
 
 /* ---------- Guestbook ---------- */
-/* Đã chuyển sang Firebase Firestore (đồng bộ mọi thiết bị) — xem js/firebase-guestbook.js */
+/* Đã chuyển sang GitHub Issue comments (đồng bộ mọi thiết bị, không dùng bên thứ 3) — xem js/guestbook.js */
 
 /* ---------- Footer year ---------- */
 document.getElementById('footerYear').textContent = new Date().getFullYear();

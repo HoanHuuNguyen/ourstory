@@ -29,41 +29,23 @@ assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đâ
 6. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
 7. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
 
-## Sổ Lưu Bút (Guestbook) — Firebase Firestore
+## Sổ Lưu Bút (Guestbook) — GitHub Issue comments
 
-Section **"Sổ Lưu Bút"** dùng [Firebase Firestore](https://firebase.google.com) — lời nhắn lưu trên cloud, **đồng bộ cho mọi thiết bị/trình duyệt**, ai vào trang cũng thấy cùng danh sách, sửa/xoá realtime. Miễn phí (gói Spark), không cần thẻ tín dụng, đủ dùng thoải mái cho quy mô 2 người.
+Section **"Sổ Lưu Bút"** lưu lời nhắn dưới dạng **comment trên 1 GitHub Issue** của chính repo `ourstory` — **không dùng dịch vụ bên thứ 3 nào** (không Firebase, không Supabase, không cần tài khoản mới). Vì repo public nên đọc lời nhắn không cần đăng nhập; gửi/sửa/xoá dùng 1 token GitHub giới hạn phạm vi.
 
-### Kích hoạt (một lần, ~5 phút)
+Issue lưu trữ: **[github.com/HoanHuuNguyen/ourstory/issues/1](https://github.com/HoanHuuNguyen/ourstory/issues/1)** — bạn có thể mở link này để xem/quản lý lời nhắn trực tiếp trên GitHub bất cứ lúc nào, kể cả không qua trang web.
 
-1. Vào [console.firebase.google.com](https://console.firebase.google.com) → **Add project** → đặt tên bất kỳ (VD: `ourstory`) → tắt Google Analytics nếu không cần → Create.
-2. Trong project → menu trái **Build → Firestore Database** → **Create database** → chọn **Production mode** → chọn region gần (VD: `asia-southeast1`) → Enable.
-3. Tab **Rules** của Firestore, thay toàn bộ bằng:
-   ```
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       match /guestbook/{entryId} {
-         allow read: if true;
-         allow create: if request.resource.data.name is string
-                       && request.resource.data.name.size() > 0
-                       && request.resource.data.name.size() <= 40
-                       && request.resource.data.message is string
-                       && request.resource.data.message.size() > 0
-                       && request.resource.data.message.size() <= 500;
-         allow update: if request.resource.data.diff(resource.data).affectedKeys()
-                       .hasOnly(['message', 'editedAt']);
-         allow delete: if true;
-       }
-     }
-   }
-   ```
-   → **Publish**.
-4. Về trang chủ project → bấm icon **`</>`** (Add app → Web) → đặt tên app → **Register app** (không cần Hosting).
-5. Firebase sẽ hiện đoạn `firebaseConfig = {...}` → copy 6 giá trị đó.
-6. Mở `js/firebase-guestbook.js`, dán vào `FIREBASE_CONFIG` (thay các giá trị `REPLACE_WITH_...`).
-7. Commit & push — Sổ Lưu Bút sẽ hoạt động ngay, dữ liệu đồng bộ thật giữa các thiết bị.
+### Kích hoạt (một lần, ~3 phút)
 
-> **Lưu ý bảo mật**: rule trên cho phép ai cũng xoá được lời nhắn (không có đăng nhập) — phù hợp vì đây là trang riêng tư cho 2 người, ít người biết đến. Nếu muốn chặt chẽ hơn (chỉ người gửi mới xoá được lời nhắn của mình), cần thêm Firebase Authentication — báo mình nếu muốn nâng cấp.
+1. Vào **GitHub → bấm avatar góc phải → Settings → Developer settings** (cuối menu bên trái) **→ Personal access tokens → Fine-grained tokens → Generate new token**.
+2. Đặt tên (VD: `ourstory-guestbook`), **Expiration**: chọn dài nhất có thể hoặc "No expiration".
+3. **Repository access** → **Only select repositories** → chọn `ourstory`.
+4. **Permissions → Repository permissions → Issues** → chọn **Read and write** (không cần bật quyền nào khác).
+5. **Generate token** → copy token (chỉ hiện 1 lần, dạng `github_pat_...`).
+6. Mở `js/guestbook.js`, dán token vào biến `GITHUB_TOKEN` (thay `REPLACE_WITH_TOKEN`).
+7. Commit & push — Sổ Lưu Bút hoạt động ngay, đồng bộ cho mọi thiết bị.
+
+> **Lưu ý bảo mật**: vì đây là site tĩnh, token này nằm trong file JS công khai — ai xem mã nguồn trang cũng thấy được. Token đã được giới hạn phạm vi tối đa (chỉ 1 repo, chỉ quyền Issues) nên rủi ro chỉ dừng ở việc ai đó có thể spam/sửa/xoá lời nhắn trong Issue #1 — không thể đụng tới code, không xoá được repo hay site. Phù hợp cho trang riêng tư 2 người, ít ai biết đến. Nếu token bị lộ/lạm dụng, chỉ cần vào Settings thu hồi token đó và tạo token mới.
 
 Cho đến khi cấu hình xong, form sẽ hiển thị dòng nhắc "chưa kích hoạt" và nút gửi bị vô hiệu hoá.
 
