@@ -648,17 +648,23 @@ body {
   white-space: pre-wrap;
   word-break: break-word;
 }
-.guestbook-entry-delete {
+.guestbook-entry-actions {
   position: absolute;
   top: 0.6rem;
-  right: 0.7rem;
+  right: 0.6rem;
+  display: flex;
+  gap: 0.4rem;
+}
+.guestbook-entry-edit, .guestbook-entry-delete {
   background: none;
   border: none;
   color: var(--text-dim);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   cursor: pointer;
   opacity: 0.5;
+  padding: 0.2rem;
 }
+.guestbook-entry-edit:hover { opacity: 1; color: var(--accent-purple); }
 .guestbook-entry-delete:hover { opacity: 1; color: var(--accent-pink-strong); }
 .guestbook-empty {
   text-align: center;
@@ -667,6 +673,52 @@ body {
   font-size: 0.9rem;
 }
 .guestbook-empty.hidden { display: none; }
+.guestbook-status {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--accent-pink-strong);
+  min-height: 1.2em;
+  margin-bottom: 1rem;
+}
+
+.guestbook-entry.editing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.guestbook-edit-textarea {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-light);
+  resize: vertical;
+}
+.guestbook-edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+.guestbook-edit-save, .guestbook-edit-cancel {
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.guestbook-edit-save {
+  background: linear-gradient(135deg, var(--accent-pink-strong), var(--accent-purple));
+  color: #fff;
+}
+.guestbook-edit-cancel {
+  background: rgba(140, 90, 130, 0.1);
+  color: var(--text-light);
+}
 
 /* ---------- FOOTER ---------- */
 .footer-section {

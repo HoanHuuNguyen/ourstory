@@ -29,13 +29,43 @@ assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đâ
 6. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
 7. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
 
-## Sổ Lưu Bút (Guestbook)
+## Sổ Lưu Bút (Guestbook) — Firebase Firestore
 
-Section **"Sổ Lưu Bút"** là form comment thuần JS, không cần cấu hình gì — hoạt động ngay sau khi deploy. Lời nhắn được lưu vào `localStorage` của trình duyệt (key `olu_guestbook_entries`) và hiển thị ngay bên dưới form, có thể xoá từng lời nhắn.
+Section **"Sổ Lưu Bút"** dùng [Firebase Firestore](https://firebase.google.com) — lời nhắn lưu trên cloud, **đồng bộ cho mọi thiết bị/trình duyệt**, ai vào trang cũng thấy cùng danh sách, sửa/xoá realtime. Miễn phí (gói Spark), không cần thẻ tín dụng, đủ dùng thoải mái cho quy mô 2 người.
 
-**Giới hạn cần biết**: `localStorage` lưu **theo từng trình duyệt/thiết bị** — lời nhắn viết trên điện thoại của bạn sẽ không tự hiện trên máy của người kia, vì trang không có server/database để đồng bộ. Đây là lựa chọn đơn giản nhất, không tốn phí, không cần đăng ký dịch vụ nào.
+### Kích hoạt (một lần, ~5 phút)
 
-Nếu sau này muốn lời nhắn **đồng bộ giữa các thiết bị** (viết trên điện thoại, người kia thấy trên máy tính), cần thêm một backend lưu trữ thật (ví dụ Firebase, Supabase, hoặc một API tự viết) — báo mình khi cần, đây là việc build thêm.
+1. Vào [console.firebase.google.com](https://console.firebase.google.com) → **Add project** → đặt tên bất kỳ (VD: `ourstory`) → tắt Google Analytics nếu không cần → Create.
+2. Trong project → menu trái **Build → Firestore Database** → **Create database** → chọn **Production mode** → chọn region gần (VD: `asia-southeast1`) → Enable.
+3. Tab **Rules** của Firestore, thay toàn bộ bằng:
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /guestbook/{entryId} {
+         allow read: if true;
+         allow create: if request.resource.data.name is string
+                       && request.resource.data.name.size() > 0
+                       && request.resource.data.name.size() <= 40
+                       && request.resource.data.message is string
+                       && request.resource.data.message.size() > 0
+                       && request.resource.data.message.size() <= 500;
+         allow update: if request.resource.data.diff(resource.data).affectedKeys()
+                       .hasOnly(['message', 'editedAt']);
+         allow delete: if true;
+       }
+     }
+   }
+   ```
+   → **Publish**.
+4. Về trang chủ project → bấm icon **`</>`** (Add app → Web) → đặt tên app → **Register app** (không cần Hosting).
+5. Firebase sẽ hiện đoạn `firebaseConfig = {...}` → copy 6 giá trị đó.
+6. Mở `js/firebase-guestbook.js`, dán vào `FIREBASE_CONFIG` (thay các giá trị `REPLACE_WITH_...`).
+7. Commit & push — Sổ Lưu Bút sẽ hoạt động ngay, dữ liệu đồng bộ thật giữa các thiết bị.
+
+> **Lưu ý bảo mật**: rule trên cho phép ai cũng xoá được lời nhắn (không có đăng nhập) — phù hợp vì đây là trang riêng tư cho 2 người, ít người biết đến. Nếu muốn chặt chẽ hơn (chỉ người gửi mới xoá được lời nhắn của mình), cần thêm Firebase Authentication — báo mình nếu muốn nâng cấp.
+
+Cho đến khi cấu hình xong, form sẽ hiển thị dòng nhắc "chưa kích hoạt" và nút gửi bị vô hiệu hoá.
 
 ## Deploy lên GitHub Pages
 

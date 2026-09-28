@@ -310,9 +310,9 @@
   </p>
 
   <!--
-    Sổ lưu bút lưu cục bộ (localStorage) trong trình duyệt — không cần server,
-    không cần cấu hình gì thêm, hoạt động ngay sau khi deploy.
-    Lưu ý: dữ liệu lưu theo TỪNG trình duyệt/thiết bị, không đồng bộ giữa các máy.
+    Sổ lưu bút dùng Firebase Firestore — lời nhắn đồng bộ cho MỌI thiết bị/trình duyệt,
+    ai vào trang cũng thấy cùng một danh sách, sửa/xoá ngay trên trang.
+    Cần cấu hình 1 lần trong js/firebase-guestbook.js — xem hướng dẫn trong README.md.
   -->
   <div class="guestbook-wrap">
     <form id="guestbookForm" class="guestbook-form">
@@ -321,8 +321,9 @@
       <button type="submit" class="guestbook-submit">Gửi lời nhắn 💌</button>
     </form>
 
+    <p class="guestbook-status" id="guestbookStatus"></p>
     <ul class="guestbook-list" id="guestbookList"></ul>
-    <p class="guestbook-empty" id="guestbookEmpty">Chưa có lời nhắn nào — hãy là người đầu tiên ✨</p>
+    <p class="guestbook-empty hidden" id="guestbookEmpty">Chưa có lời nhắn nào — hãy là người đầu tiên ✨</p>
   </div>
 </section>
 
@@ -347,5 +348,6 @@
 </div>
 
 <script src="js/main.js"></script>
+<script type="module" src="js/firebase-guestbook.js"></script>
 </body>
 </html>

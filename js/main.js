@@ -303,86 +303,8 @@ const START_DATE = new Date('2026-08-03T00:00:00');
   });
 })();
 
-/* ---------- Guestbook (lưu localStorage, không cần server) ---------- */
-(function guestbook() {
-  const form = document.getElementById('guestbookForm');
-  if (!form) return;
-  const nameInput = document.getElementById('guestbookName');
-  const msgInput = document.getElementById('guestbookMessage');
-  const list = document.getElementById('guestbookList');
-  const empty = document.getElementById('guestbookEmpty');
-  const STORAGE_KEY = 'olu_guestbook_entries';
-
-  function load() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function save(entries) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-    } catch (e) { /* localStorage không khả dụng, bỏ qua */ }
-  }
-
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  function formatTime(iso) {
-    const d = new Date(iso);
-    return d.toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  }
-
-  function render() {
-    const entries = load();
-    empty.classList.toggle('hidden', entries.length > 0);
-    list.innerHTML = entries
-      .slice()
-      .reverse()
-      .map(
-        (e) => `
-        <li class="guestbook-entry" data-id="${e.id}">
-          <button class="guestbook-entry-delete" data-id="${e.id}" aria-label="Xoá lời nhắn">✕</button>
-          <div class="guestbook-entry-head">
-            <span class="guestbook-entry-name">${escapeHtml(e.name)}</span>
-            <span class="guestbook-entry-time">${formatTime(e.time)}</span>
-          </div>
-          <p class="guestbook-entry-msg">${escapeHtml(e.message)}</p>
-        </li>`
-      )
-      .join('');
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = nameInput.value.trim();
-    const message = msgInput.value.trim();
-    if (!name || !message) return;
-
-    const entries = load();
-    entries.push({ id: Date.now().toString(36), name, message, time: new Date().toISOString() });
-    save(entries);
-    render();
-    form.reset();
-    nameInput.focus();
-  });
-
-  list.addEventListener('click', (e) => {
-    const btn = e.target.closest('.guestbook-entry-delete');
-    if (!btn) return;
-    const id = btn.dataset.id;
-    const entries = load().filter((entry) => entry.id !== id);
-    save(entries);
-    render();
-  });
-
-  render();
-})();
+/* ---------- Guestbook ---------- */
+/* Đã chuyển sang Firebase Firestore (đồng bộ mọi thiết bị) — xem js/firebase-guestbook.js */
 
 /* ---------- Footer year ---------- */
 document.getElementById('footerYear').textContent = new Date().getFullYear();
