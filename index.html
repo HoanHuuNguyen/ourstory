@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hữu &amp; Ngân — Our Little Universe</title>
+<meta name="description" content="Vũ trụ nhỏ của Hữu và Ngân 💕">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💜</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<button id="musicToggle" class="music-toggle" aria-label="Bật/tắt nhạc nền" title="Nhạc nền">
+  <span class="note">♪</span>
+</button>
+<audio id="bgMusic" loop preload="none">
+  <!-- Thêm file nhạc kỷ niệm của hai bạn tại assets/music.mp3 -->
+  <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<nav class="dot-nav" aria-label="Điều hướng trang">
+  <a href="#hero" data-label="Đầu trang"></a>
+  <a href="#counter" data-label="Đếm ngày"></a>
+  <a href="#story" data-label="Câu chuyện"></a>
+  <a href="#gallery" data-label="Kỷ niệm"></a>
+  <a href="#letter" data-label="Thư tay"></a>
+  <a href="#constellation" data-label="Lý do yêu em"></a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="section hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">✦ chào mừng đến với ✦</p>
+    <h1 class="hero-title">Our Little Universe</h1>
+    <p class="hero-names"><span>Hữu</span><span class="heart">♡</span><span>Ngân</span></p>
+    <p class="hero-tagline">Trong hàng tỷ ngôi sao ngoài kia, anh chỉ cần một — là em.</p>
+    <a href="#counter" class="scroll-cue" aria-label="Cuộn xuống">
+      <span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ COUNTER ============ -->
+<section id="counter" class="section counter-section">
+  <p class="section-eyebrow">✦ khoảnh khắc của chúng ta ✦</p>
+  <h2 class="section-title">Chúng ta đã bên nhau được</h2>
+
+  <!-- CHỈNH SỬA: đổi ngày bắt đầu yêu thật trong js/main.js (biến START_DATE) -->
+  <div class="counter-grid" id="counterGrid">
+    <div class="counter-box"><span class="counter-num" id="cDays">0</span><span class="counter-label">ngày</span></div>
+    <div class="counter-box"><span class="counter-num" id="cHours">0</span><span class="counter-label">giờ</span></div>
+    <div class="counter-box"><span class="counter-num" id="cMinutes">0</span><span class="counter-label">phút</span></div>
+    <div class="counter-box"><span class="counter-num" id="cSeconds">0</span><span class="counter-label">giây</span></div>
+  </div>
+  <p class="counter-note">và vẫn đang tiếp tục đếm, giống như tình yêu này vậy ✨</p>
+</section>
+
+<!-- ============ STORY / TIMELINE ============ -->
+<section id="story" class="section story-section">
+  <p class="section-eyebrow">✦ hành trình của chúng ta ✦</p>
+  <h2 class="section-title">Our Story</h2>
+  <p class="section-sub">Mỗi ngôi sao dưới đây là một khoảnh khắc đáng nhớ. (Chỉnh sửa nội dung &amp; ngày tháng thật tại đây)</p>
+
+  <div class="timeline">
+    <div class="timeline-line"></div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <span class="timeline-date">[Ngày/Tháng/Năm]</span>
+        <h3>Ngày định mệnh</h3>
+        <p>Lần đầu tiên hai đứa gặp nhau — chẳng ai ngờ khoảnh khắc bình thường ấy lại là khởi đầu của một vũ trụ riêng.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <span class="timeline-date">[Ngày/Tháng/Năm]</span>
+        <h3>Tin nhắn đầu tiên</h3>
+        <p>Một dòng chữ ngập ngừng gửi đi, và cả buổi tối sau đó là chờ đợi tin nhắn trả lời.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <span class="timeline-date">[Ngày/Tháng/Năm]</span>
+        <h3>Buổi hẹn đầu tiên</h3>
+        <p>Hồi hộp, lóng ngóng, nhưng vui đến mức chẳng muốn buổi tối kết thúc.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot big"></div>
+      <div class="timeline-card highlight">
+        <span class="timeline-date">[Ngày/Tháng/Năm]</span>
+        <h3>Chính thức yêu nhau 💜</h3>
+        <p>Ngày mà "chúng ta" chính thức trở thành một danh xưng. Vũ trụ nhỏ này bắt đầu từ đây.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <span class="timeline-date">[Ngày/Tháng/Năm]</span>
+        <h3>Vượt qua thử thách đầu tiên</h3>
+        <p>Không phải lúc nào cũng dễ dàng, nhưng nắm tay nhau đi qua thì khó mấy cũng thành nhẹ.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <span class="timeline-date">Hôm nay</span>
+        <h3>Và câu chuyện vẫn đang được viết tiếp...</h3>
+        <p>Chương tiếp theo là của hai đứa mình, ngày càng nhiều thương hơn.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section id="gallery" class="section gallery-section">
+  <p class="section-eyebrow">✦ những khoảnh khắc ✦</p>
+  <h2 class="section-title">Album Kỷ Niệm</h2>
+  <p class="section-sub">Thay các ô bên dưới bằng ảnh thật trong thư mục <code>assets/photos/</code></p>
+
+  <div class="gallery-grid" id="galleryGrid">
+    <!-- Mỗi item: đổi thẻ div.placeholder thành <img src="assets/photos/anh1.jpg"> khi có ảnh thật -->
+    <button class="gallery-item reveal" data-caption="Kỷ niệm #1 — thêm mô tả của bạn">
+      <div class="placeholder"><span>📷</span></div>
+    </button>
+    <button class="gallery-item reveal" data-caption="Kỷ niệm #2 — thêm mô tả của bạn">
+      <div class="placeholder"><span>📷</span></div>
+    </button>
+    <button class="gallery-item reveal" data-caption="Kỷ niệm #3 — thêm mô tả của bạn">
+      <div class="placeholder"><span>📷</span></div>
+    </button>
+    <button class="gallery-item reveal" data-caption="Kỷ niệm #4 — thêm mô tả của bạn">
+      <div class="placeholder"><span>📷</span></div>
+    </button>
+    <button class="gallery-item reveal" data-caption="Kỷ niệm #5 — thêm mô tả của bạn">
+      <div class="placeholder"><span>📷</span></div>
+    </button>
+    <button class="gallery-item reveal" data-caption="Kỷ niệm #6 — thêm mô tả của bạn">
+      <div class="placeholder"><span>📷</span></div>
+    </button>
+  </div>
+</section>
+
+<!-- ============ LOVE LETTER ============ -->
+<section id="letter" class="section letter-section">
+  <p class="section-eyebrow">✦ gửi em ✦</p>
+  <h2 class="section-title">Một Lá Thư Nhỏ</h2>
+
+  <div class="letter-paper reveal">
+    <p class="letter-greeting">Ngân yêu,</p>
+    <p class="letter-body" id="letterBody">
+      Anh không giỏi nói những lời hoa mỹ, nhưng anh biết chắc một điều: từ ngày có em, những điều bình thường nhất trong cuộc sống của anh bỗng trở nên đáng nhớ hơn rất nhiều. Cảm ơn em đã xuất hiện, đã ở lại, và đã cùng anh xây nên một vũ trụ nhỏ của riêng hai đứa mình. Anh mong vũ trụ ấy sẽ còn mở rộng thêm thật nhiều, thật lâu, có em bên cạnh.
+    </p>
+    <p class="letter-sign">Thương em thật nhiều,<br><span>Hữu</span></p>
+  </div>
+  <p class="letter-hint">(Nội dung mẫu — hãy sửa lại bằng lời của chính bạn trong <code>index.html</code>)</p>
+</section>
+
+<!-- ============ CONSTELLATION OF REASONS ============ -->
+<section id="constellation" class="section constellation-section">
+  <p class="section-eyebrow">✦ vì sao anh yêu em ✦</p>
+  <h2 class="section-title">Chòm Sao Của Những Lý Do</h2>
+  <p class="section-sub">Chạm vào từng ngôi sao để xem lý do 💫</p>
+
+  <div class="stars-wrap" id="starsWrap">
+    <button class="reason-star" style="top:10%; left:15%;" data-reason="Vì nụ cười của em luôn khiến ngày tồi tệ nhất trở nên nhẹ nhõm hơn.">★</button>
+    <button class="reason-star" style="top:25%; left:70%;" data-reason="Vì em luôn lắng nghe, kể cả khi anh nói những điều chẳng đầu chẳng cuối.">★</button>
+    <button class="reason-star" style="top:55%; left:8%;" data-reason="Vì bên em, anh được là chính mình mà không cần cố gắng.">★</button>
+    <button class="reason-star" style="top:70%; left:45%;" data-reason="Vì em luôn tin anh, kể cả những lúc anh chưa tin chính mình.">★</button>
+    <button class="reason-star" style="top:40%; left:85%;" data-reason="Vì cách em quan tâm những điều nhỏ nhặt nhất trong cuộc sống của anh.">★</button>
+    <button class="reason-star" style="top:85%; left:20%;" data-reason="Vì tương lai nào có em, anh cũng thấy đáng để cố gắng.">★</button>
+    <button class="reason-star" style="top:15%; left:45%;" data-reason="Vì em khiến 'nhà' không còn là một nơi chốn, mà là một con người."></button>
+    <button class="reason-star" style="top:60%; left:65%;" data-reason="Vì đơn giản là em — chỉ cần vậy thôi cũng đủ lý do rồi.">★</button>
+  </div>
+  <div class="reason-tooltip" id="reasonTooltip"></div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="section footer-section">
+  <p class="footer-quote">"Trong vũ trụ bao la này, anh may mắn nhất vì có em."</p>
+  <button id="heartBtn" class="heart-btn">Gửi em một trái tim ❤️</button>
+  <p class="footer-credit">Made with 💜 by Hữu · <span id="footerYear"></span></p>
+</footer>
+
+<div class="modal" id="lightbox">
+  <button class="modal-close" id="lightboxClose" aria-label="Đóng">✕</button>
+  <div class="modal-content">
+    <div class="modal-placeholder"><span>📷</span></div>
+    <p class="modal-caption" id="lightboxCaption"></p>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
