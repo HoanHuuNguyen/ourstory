@@ -303,8 +303,128 @@ const START_DATE = new Date('2026-08-03T00:00:00');
   });
 })();
 
-/* ---------- Guestbook ---------- */
-/* Đã chuyển sang GitHub Issue comments (đồng bộ mọi thiết bị, không dùng bên thứ 3) — xem js/guestbook.js */
+/* ---------- Guestbook (lưu localStorage, không cần server/bên thứ 3) ---------- */
+(function guestbook() {
+  const form = document.getElementById('guestbookForm');
+  if (!form) return;
+  const nameInput = document.getElementById('guestbookName');
+  const msgInput = document.getElementById('guestbookMessage');
+  const list = document.getElementById('guestbookList');
+  const empty = document.getElementById('guestbookEmpty');
+  const STORAGE_KEY = 'olu_guestbook_entries';
+  let editingId = null;
+
+  function load() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function save(entries) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    } catch (e) { /* localStorage không khả dụng, bỏ qua */ }
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function formatTime(iso) {
+    const d = new Date(iso);
+    return d.toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function entryHtml(e) {
+    return `
+      <li class="guestbook-entry" data-id="${e.id}">
+        <div class="guestbook-entry-actions">
+          <button class="guestbook-entry-edit" data-id="${e.id}" aria-label="Sửa lời nhắn">✎</button>
+          <button class="guestbook-entry-delete" data-id="${e.id}" aria-label="Xoá lời nhắn">✕</button>
+        </div>
+        <div class="guestbook-entry-head">
+          <span class="guestbook-entry-name">${escapeHtml(e.name)}</span>
+          <span class="guestbook-entry-time">${formatTime(e.time)}${e.editedAt ? ' · đã sửa' : ''}</span>
+        </div>
+        <p class="guestbook-entry-msg">${escapeHtml(e.message)}</p>
+      </li>`;
+  }
+
+  function editFormHtml(e) {
+    return `
+      <li class="guestbook-entry editing" data-id="${e.id}">
+        <div class="guestbook-entry-head">
+          <span class="guestbook-entry-name">${escapeHtml(e.name)}</span>
+        </div>
+        <textarea class="guestbook-edit-textarea" maxlength="500" rows="3">${escapeHtml(e.message)}</textarea>
+        <div class="guestbook-edit-actions">
+          <button class="guestbook-edit-save" data-id="${e.id}">Lưu</button>
+          <button class="guestbook-edit-cancel" data-id="${e.id}">Huỷ</button>
+        </div>
+      </li>`;
+  }
+
+  function render() {
+    const entries = load();
+    empty.classList.toggle('hidden', entries.length > 0);
+    list.innerHTML = entries
+      .slice()
+      .reverse()
+      .map((e) => (e.id === editingId ? editFormHtml(e) : entryHtml(e)))
+      .join('');
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const message = msgInput.value.trim();
+    if (!name || !message) return;
+
+    const entries = load();
+    entries.push({ id: Date.now().toString(36), name, message, time: new Date().toISOString() });
+    save(entries);
+    render();
+    form.reset();
+    nameInput.focus();
+  });
+
+  list.addEventListener('click', (e) => {
+    const editBtn = e.target.closest('.guestbook-entry-edit');
+    const deleteBtn = e.target.closest('.guestbook-entry-delete');
+    const saveBtn = e.target.closest('.guestbook-edit-save');
+    const cancelBtn = e.target.closest('.guestbook-edit-cancel');
+
+    if (editBtn) {
+      editingId = editBtn.dataset.id;
+      render();
+    } else if (cancelBtn) {
+      editingId = null;
+      render();
+    } else if (deleteBtn) {
+      const entries = load().filter((entry) => entry.id !== deleteBtn.dataset.id);
+      save(entries);
+      render();
+    } else if (saveBtn) {
+      const id = saveBtn.dataset.id;
+      const textarea = list.querySelector('.guestbook-entry.editing textarea');
+      const newMessage = textarea.value.trim();
+      if (newMessage) {
+        const entries = load().map((entry) =>
+          entry.id === id ? { ...entry, message: newMessage, editedAt: new Date().toISOString() } : entry
+        );
+        save(entries);
+      }
+      editingId = null;
+      render();
+    }
+  });
+
+  render();
+})();
 
 /* ---------- Footer year ---------- */
 document.getElementById('footerYear').textContent = new Date().getFullYear();

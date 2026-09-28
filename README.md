@@ -29,25 +29,13 @@ assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đâ
 6. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
 7. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
 
-## Sổ Lưu Bút (Guestbook) — GitHub Issue comments
+## Sổ Lưu Bút (Guestbook)
 
-Section **"Sổ Lưu Bút"** lưu lời nhắn dưới dạng **comment trên 1 GitHub Issue** của chính repo `ourstory` — **không dùng dịch vụ bên thứ 3 nào** (không Firebase, không Supabase, không cần tài khoản mới). Vì repo public nên đọc lời nhắn không cần đăng nhập; gửi/sửa/xoá dùng 1 token GitHub giới hạn phạm vi.
+Section **"Sổ Lưu Bút"** là form comment thuần JS, không dùng dịch vụ bên thứ 3 nào, không cần cấu hình hay token gì cả — hoạt động ngay sau khi deploy. Lời nhắn lưu vào `localStorage` của trình duyệt (key `olu_guestbook_entries`), hiển thị ngay bên dưới form, có thể **sửa** hoặc **xoá** từng lời nhắn.
 
-Issue lưu trữ: **[github.com/HoanHuuNguyen/ourstory/issues/1](https://github.com/HoanHuuNguyen/ourstory/issues/1)** — bạn có thể mở link này để xem/quản lý lời nhắn trực tiếp trên GitHub bất cứ lúc nào, kể cả không qua trang web.
+**Giới hạn cần biết**: `localStorage` lưu **theo từng trình duyệt/thiết bị** — lời nhắn viết trên điện thoại sẽ không tự hiện trên máy tính hay máy của người kia, vì trang không có nơi lưu trữ dùng chung. Đây là đánh đổi để giữ mọi thứ đơn giản, miễn phí, không secret nào cần quản lý.
 
-### Kích hoạt (một lần, ~3 phút)
-
-1. Vào **GitHub → bấm avatar góc phải → Settings → Developer settings** (cuối menu bên trái) **→ Personal access tokens → Fine-grained tokens → Generate new token**.
-2. Đặt tên (VD: `ourstory-guestbook`), **Expiration**: chọn dài nhất có thể hoặc "No expiration".
-3. **Repository access** → **Only select repositories** → chọn `ourstory`.
-4. **Permissions → Repository permissions → Issues** → chọn **Read and write** (không cần bật quyền nào khác).
-5. **Generate token** → copy token (chỉ hiện 1 lần, dạng `github_pat_...`).
-6. Mở `js/guestbook.js`, dán token vào biến `GITHUB_TOKEN` (thay `REPLACE_WITH_TOKEN`).
-7. Commit & push — Sổ Lưu Bút hoạt động ngay, đồng bộ cho mọi thiết bị.
-
-> **Lưu ý bảo mật**: vì đây là site tĩnh, token này nằm trong file JS công khai — ai xem mã nguồn trang cũng thấy được. Token đã được giới hạn phạm vi tối đa (chỉ 1 repo, chỉ quyền Issues) nên rủi ro chỉ dừng ở việc ai đó có thể spam/sửa/xoá lời nhắn trong Issue #1 — không thể đụng tới code, không xoá được repo hay site. Phù hợp cho trang riêng tư 2 người, ít ai biết đến. Nếu token bị lộ/lạm dụng, chỉ cần vào Settings thu hồi token đó và tạo token mới.
-
-Cho đến khi cấu hình xong, form sẽ hiển thị dòng nhắc "chưa kích hoạt" và nút gửi bị vô hiệu hoá.
+> Đã thử 2 hướng đồng bộ đa thiết bị (Firebase, và lưu qua GitHub Issue comments) nhưng đều cần hoặc một dịch vụ bên thứ 3 (Firebase), hoặc một secret không thể an toàn để lộ trong code public (GitHub token — bị chính GitHub Push Protection chặn). Nếu sau này vẫn muốn đồng bộ thật, cách khả thi duy nhất không lộ secret là thêm một proxy nhỏ (VD: Cloudflare Worker miễn phí) đứng giữa — báo mình nếu muốn làm.
 
 ## Deploy lên GitHub Pages
 
