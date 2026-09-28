@@ -28,6 +28,22 @@ assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đâ
 5. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
 6. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
 
+## Sổ Lưu Bút / Comments (giscus)
+
+Section **"Sổ Lưu Bút"** dùng [giscus](https://giscus.app) — bình luận lưu vào GitHub Discussions của chính repo này, miễn phí, không cần server, không cần database. Kích hoạt 1 lần (~2 phút):
+
+1. Vào repo → **Settings → General → Features** → tick ✅ **Discussions** → Save.
+2. Vào [giscus.app](https://giscus.app):
+   - Nhập repo: `HoanHuuNguyen/ourstory`
+   - Trang sẽ báo cần cài **giscus app** → bấm link, **Install** app đó vào riêng repo `ourstory` (đăng nhập bằng tài khoản GitHub chủ repo).
+   - Sau khi cài xong, giscus.app sẽ hiện ✅ và sinh ra đoạn cấu hình gồm `data-repo-id` và `data-category-id`.
+   - Ở mục **Discussion Category**, chọn `General` (hoặc tạo category riêng tên "Lời nhắn").
+3. Copy 2 giá trị `data-repo-id="..."` và `data-category-id="..."` từ giscus.app.
+4. Mở `index.html`, tìm `REPLACE_WITH_REPO_ID` và `REPLACE_WITH_CATEGORY_ID` (section `#guestbook`) → dán giá trị thật vào.
+5. Commit & push — comment box sẽ hoạt động ngay, mỗi lời nhắn là 1 comment trong GitHub Discussions, ai vào trang cũng đọc được.
+
+> Cho đến khi hoàn tất bước trên, trang sẽ hiển thị dòng nhắc "chưa kích hoạt" thay vì khung bình luận.
+
 ## Deploy lên GitHub Pages
 
 Repo đã có sẵn code trên nhánh `main`. Bật Pages:

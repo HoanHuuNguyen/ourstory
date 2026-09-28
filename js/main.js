@@ -3,7 +3,7 @@
 // ===================================================
 
 /* ---------- CONFIG: chỉnh ngày bắt đầu yêu tại đây ---------- */
-const START_DATE = new Date('2023-01-01T00:00:00'); // TODO: đổi thành ngày thật
+const START_DATE = new Date('2026-08-03T00:00:00');
 
 /* ---------- Starfield background ---------- */
 (function starfield() {
@@ -204,6 +204,71 @@ const START_DATE = new Date('2023-01-01T00:00:00'); // TODO: đổi thành ngày
     { threshold: 0.5 }
   );
   sections.forEach((s) => s && io.observe(s));
+})();
+
+/* ---------- Quotes carousel ---------- */
+(function quotes() {
+  const viewport = document.getElementById('quoteViewport');
+  if (!viewport) return;
+  const slides = Array.from(viewport.querySelectorAll('.quote-slide'));
+  const dotsWrap = document.getElementById('quoteDots');
+  const savedHint = document.getElementById('quoteSavedHint');
+  let index = 0;
+  let timer = null;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'qdot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Câu ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function goTo(i) {
+    slides[index].classList.remove('active');
+    dots[index].classList.remove('active');
+    index = (i + slides.length) % slides.length;
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+    resetAutoplay();
+  }
+
+  function resetAutoplay() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(index + 1), 7000);
+  }
+
+  document.getElementById('quotePrev').addEventListener('click', () => goTo(index - 1));
+  document.getElementById('quoteNext').addEventListener('click', () => goTo(index + 1));
+  resetAutoplay();
+
+  // Lưu câu thích nhất vào trình duyệt (localStorage) — chỉ để cá nhân đánh dấu, không đồng bộ giữa 2 người
+  slides.forEach((slide) => {
+    slide.style.cursor = 'pointer';
+    slide.title = 'Chạm để đánh dấu câu này là câu bạn thích nhất';
+    slide.addEventListener('click', () => {
+      try {
+        localStorage.setItem('olu_favorite_quote', slide.querySelector('p').textContent);
+        savedHint.textContent = '💾 Đã lưu làm câu yêu thích của bạn trên trình duyệt này.';
+      } catch (e) { /* localStorage không khả dụng, bỏ qua */ }
+    });
+  });
+})();
+
+/* ---------- Guestbook setup-note toggle ---------- */
+(function guestbookNote() {
+  const note = document.getElementById('guestbookSetupNote');
+  if (!note) return;
+  // Nếu giscus load thành công, nó sẽ chèn 1 <iframe> vào .giscus-wrap — khi đó ẩn thông báo hướng dẫn.
+  const wrap = document.querySelector('.giscus-wrap');
+  const mo = new MutationObserver(() => {
+    if (wrap.querySelector('iframe.giscus-frame')) {
+      note.classList.add('hidden');
+      mo.disconnect();
+    }
+  });
+  mo.observe(wrap, { childList: true, subtree: true });
 })();
 
 /* ---------- Footer year ---------- */

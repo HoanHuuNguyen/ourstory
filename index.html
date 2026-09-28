@@ -30,6 +30,8 @@
   <a href="#gallery" data-label="Kỷ niệm"></a>
   <a href="#letter" data-label="Thư tay"></a>
   <a href="#constellation" data-label="Lý do yêu em"></a>
+  <a href="#quotes" data-label="Câu nói hay"></a>
+  <a href="#guestbook" data-label="Sổ lưu bút"></a>
 </nav>
 
 <!-- ============ HERO ============ -->
@@ -186,6 +188,88 @@
     <button class="reason-star" style="top:60%; left:65%;" data-reason="Vì đơn giản là em — chỉ cần vậy thôi cũng đủ lý do rồi.">★</button>
   </div>
   <div class="reason-tooltip" id="reasonTooltip"></div>
+</section>
+
+<!-- ============ QUOTES ============ -->
+<section id="quotes" class="section quotes-section">
+  <p class="section-eyebrow">✦ những câu nói hay ✦</p>
+  <h2 class="section-title">Góp Nhặt Yêu Thương</h2>
+  <p class="section-sub">Những câu ca dao, danh ngôn về tình yêu — chạm ❤ để lưu lại câu bạn thích nhất</p>
+
+  <div class="quote-carousel">
+    <button class="quote-nav prev" id="quotePrev" aria-label="Câu trước">‹</button>
+
+    <div class="quote-viewport" id="quoteViewport">
+      <!-- CHỈNH SỬA: thêm/bớt/đổi câu nói tại đây -->
+      <blockquote class="quote-slide active">
+        <p>“Yêu nhau tam tứ núi cũng trèo, ngũ lục sông cũng lội, thất bát cửu thập đèo cũng qua.”</p>
+        <cite>— Ca dao Việt Nam</cite>
+      </blockquote>
+      <blockquote class="quote-slide">
+        <p>“Thương nhau mấy núi cũng trèo, mấy sông cũng lội, mấy đèo cũng qua.”</p>
+        <cite>— Ca dao Việt Nam</cite>
+      </blockquote>
+      <blockquote class="quote-slide">
+        <p>“Yêu là tìm thấy vũ trụ của riêng mình trong ánh mắt của một người.”</p>
+        <cite>— Khuyết danh</cite>
+      </blockquote>
+      <blockquote class="quote-slide">
+        <p>“Nơi nào có em, nơi đó là nhà; khi nào có em, khi đó là mãi mãi.”</p>
+        <cite>— Khuyết danh</cite>
+      </blockquote>
+      <blockquote class="quote-slide">
+        <p>“Có những người bước vào đời ta chỉ để nhắc ta nhớ, bầu trời vẫn còn rất nhiều ngôi sao đẹp — nhưng chỉ một ngôi khiến ta dừng lại.”</p>
+        <cite>— Khuyết danh</cite>
+      </blockquote>
+      <blockquote class="quote-slide">
+        <p>“Thuyền về có nhớ bến chăng, bến thì một dạ khăng khăng đợi thuyền.”</p>
+        <cite>— Ca dao Việt Nam</cite>
+      </blockquote>
+    </div>
+
+    <button class="quote-nav next" id="quoteNext" aria-label="Câu sau">›</button>
+  </div>
+
+  <div class="quote-dots" id="quoteDots"></div>
+  <p class="quote-saved-hint" id="quoteSavedHint"></p>
+</section>
+
+<!-- ============ GUESTBOOK / COMMENTS ============ -->
+<section id="guestbook" class="section guestbook-section">
+  <p class="section-eyebrow">✦ để lại lời nhắn ✦</p>
+  <h2 class="section-title">Sổ Lưu Bút 💌</h2>
+  <p class="section-sub">
+    Viết một lời nhắn, một kỷ niệm, hay đơn giản là "anh yêu em" — lời nhắn sẽ hiển thị ngay bên dưới cho cả hai cùng đọc lại bất cứ lúc nào.
+  </p>
+
+  <!--
+    Khung bình luận dùng giscus (https://giscus.app) — miễn phí, không cần server,
+    lưu bình luận dưới dạng GitHub Discussions của chính repo này.
+    Xem hướng dẫn kích hoạt trong README.md (mục "Sổ Lưu Bút / Comments").
+    Sau khi cấu hình xong tại giscus.app, thay 4 giá trị data-repo-id,
+    data-category, data-category-id bên dưới bằng giá trị thật của bạn.
+  -->
+  <div class="giscus-wrap">
+    <script src="https://giscus.app/client.js"
+      data-repo="HoanHuuNguyen/ourstory"
+      data-repo-id="REPLACE_WITH_REPO_ID"
+      data-category="General"
+      data-category-id="REPLACE_WITH_CATEGORY_ID"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="dark_dimmed"
+      data-lang="vi"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+    </script>
+    <p class="guestbook-setup-note" id="guestbookSetupNote">
+      💡 Sổ lưu bút chưa được kích hoạt — làm theo hướng dẫn trong README.md để bật (chỉ mất ~2 phút, miễn phí).
+    </p>
+  </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
