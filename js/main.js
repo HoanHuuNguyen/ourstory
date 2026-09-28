@@ -307,7 +307,6 @@ const START_DATE = new Date('2026-08-03T00:00:00');
 (function guestbook() {
   const form = document.getElementById('guestbookForm');
   if (!form) return;
-  const nameInput = document.getElementById('guestbookName');
   const msgInput = document.getElementById('guestbookMessage');
   const list = document.getElementById('guestbookList');
   const empty = document.getElementById('guestbookEmpty');
@@ -380,7 +379,8 @@ const START_DATE = new Date('2026-08-03T00:00:00');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = nameInput.value.trim();
+    const nameRadio = form.querySelector('input[name="guestbookNamePick"]:checked');
+    const name = nameRadio ? nameRadio.value : '';
     const message = msgInput.value.trim();
     if (!name || !message) return;
 
@@ -389,7 +389,7 @@ const START_DATE = new Date('2026-08-03T00:00:00');
     save(entries);
     render();
     form.reset();
-    nameInput.focus();
+    msgInput.focus();
   });
 
   list.addEventListener('click', (e) => {

@@ -316,11 +316,12 @@
   -->
   <div class="guestbook-wrap">
     <form id="guestbookForm" class="guestbook-form">
-      <select id="guestbookName" class="guestbook-input guestbook-select" required>
-        <option value="" disabled selected>Bạn là...</option>
-        <option value="Hữu">Hữu</option>
-        <option value="Ngân">Ngân</option>
-      </select>
+      <div class="name-picker" id="guestbookNamePicker">
+        <input type="radio" name="guestbookNamePick" id="pickHuu" value="Hữu" required>
+        <label for="pickHuu"><span class="name-picker-emoji">💙</span> Hữu</label>
+        <input type="radio" name="guestbookNamePick" id="pickNgan" value="Ngân">
+        <label for="pickNgan"><span class="name-picker-emoji">💗</span> Ngân</label>
+      </div>
       <textarea id="guestbookMessage" class="guestbook-textarea" placeholder="Viết lời nhắn..." maxlength="500" rows="3" required></textarea>
       <button type="submit" class="guestbook-submit">Gửi lời nhắn 💌</button>
     </form>
