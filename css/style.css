@@ -477,22 +477,108 @@ body {
 }
 
 /* ---------- GUESTBOOK ---------- */
-.guestbook-wrap, .giscus-wrap {
-  max-width: 700px;
+.guestbook-wrap {
+  max-width: 620px;
   margin: 0 auto;
   text-align: left;
 }
-.guestbook-setup-note {
-  text-align: center;
-  margin-top: 1rem;
-  font-size: 0.85rem;
-  color: var(--text-dim);
-  background: rgba(255,216,115,0.08);
-  border: 1px dashed var(--border-soft);
-  border-radius: 10px;
-  padding: 0.8rem 1rem;
+.guestbook-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 1.4rem;
+  margin-bottom: 2rem;
 }
-.guestbook-setup-note.hidden { display: none; }
+.guestbook-input, .guestbook-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  resize: vertical;
+}
+.guestbook-input:focus, .guestbook-textarea:focus {
+  outline: none;
+  border-color: var(--accent-pink);
+}
+.guestbook-submit {
+  align-self: flex-end;
+  font-family: var(--font-body);
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent-pink-strong), var(--accent-purple));
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+.guestbook-submit:hover { transform: translateY(-2px); }
+
+.guestbook-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.guestbook-entry {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.5s ease forwards;
+}
+.guestbook-entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.3rem;
+}
+.guestbook-entry-name {
+  font-weight: 700;
+  color: var(--accent-pink);
+  font-size: 0.9rem;
+}
+.guestbook-entry-time {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+.guestbook-entry-msg {
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.guestbook-entry-delete {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.guestbook-entry-delete:hover { opacity: 1; color: var(--accent-pink-strong); }
+.guestbook-empty {
+  text-align: center;
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+.guestbook-empty.hidden { display: none; }
 
 /* ---------- FOOTER ---------- */
 .footer-section {

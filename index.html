@@ -243,32 +243,19 @@
   </p>
 
   <!--
-    Khung bình luận dùng giscus (https://giscus.app) — miễn phí, không cần server,
-    lưu bình luận dưới dạng GitHub Discussions của chính repo này.
-    Xem hướng dẫn kích hoạt trong README.md (mục "Sổ Lưu Bút / Comments").
-    Sau khi cấu hình xong tại giscus.app, thay 4 giá trị data-repo-id,
-    data-category, data-category-id bên dưới bằng giá trị thật của bạn.
+    Sổ lưu bút lưu cục bộ (localStorage) trong trình duyệt — không cần server,
+    không cần cấu hình gì thêm, hoạt động ngay sau khi deploy.
+    Lưu ý: dữ liệu lưu theo TỪNG trình duyệt/thiết bị, không đồng bộ giữa các máy.
   -->
-  <div class="giscus-wrap">
-    <script src="https://giscus.app/client.js"
-      data-repo="HoanHuuNguyen/ourstory"
-      data-repo-id="REPLACE_WITH_REPO_ID"
-      data-category="General"
-      data-category-id="REPLACE_WITH_CATEGORY_ID"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="top"
-      data-theme="dark_dimmed"
-      data-lang="vi"
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async>
-    </script>
-    <p class="guestbook-setup-note" id="guestbookSetupNote">
-      💡 Sổ lưu bút chưa được kích hoạt — làm theo hướng dẫn trong README.md để bật (chỉ mất ~2 phút, miễn phí).
-    </p>
+  <div class="guestbook-wrap">
+    <form id="guestbookForm" class="guestbook-form">
+      <input type="text" id="guestbookName" class="guestbook-input" placeholder="Tên của bạn" maxlength="40" required>
+      <textarea id="guestbookMessage" class="guestbook-textarea" placeholder="Viết lời nhắn..." maxlength="500" rows="3" required></textarea>
+      <button type="submit" class="guestbook-submit">Gửi lời nhắn 💌</button>
+    </form>
+
+    <ul class="guestbook-list" id="guestbookList"></ul>
+    <p class="guestbook-empty" id="guestbookEmpty">Chưa có lời nhắn nào — hãy là người đầu tiên ✨</p>
   </div>
 </section>
 

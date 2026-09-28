@@ -28,21 +28,13 @@ assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đâ
 5. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
 6. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
 
-## Sổ Lưu Bút / Comments (giscus)
+## Sổ Lưu Bút (Guestbook)
 
-Section **"Sổ Lưu Bút"** dùng [giscus](https://giscus.app) — bình luận lưu vào GitHub Discussions của chính repo này, miễn phí, không cần server, không cần database. Kích hoạt 1 lần (~2 phút):
+Section **"Sổ Lưu Bút"** là form comment thuần JS, không cần cấu hình gì — hoạt động ngay sau khi deploy. Lời nhắn được lưu vào `localStorage` của trình duyệt (key `olu_guestbook_entries`) và hiển thị ngay bên dưới form, có thể xoá từng lời nhắn.
 
-1. Vào repo → **Settings → General → Features** → tick ✅ **Discussions** → Save.
-2. Vào [giscus.app](https://giscus.app):
-   - Nhập repo: `HoanHuuNguyen/ourstory`
-   - Trang sẽ báo cần cài **giscus app** → bấm link, **Install** app đó vào riêng repo `ourstory` (đăng nhập bằng tài khoản GitHub chủ repo).
-   - Sau khi cài xong, giscus.app sẽ hiện ✅ và sinh ra đoạn cấu hình gồm `data-repo-id` và `data-category-id`.
-   - Ở mục **Discussion Category**, chọn `General` (hoặc tạo category riêng tên "Lời nhắn").
-3. Copy 2 giá trị `data-repo-id="..."` và `data-category-id="..."` từ giscus.app.
-4. Mở `index.html`, tìm `REPLACE_WITH_REPO_ID` và `REPLACE_WITH_CATEGORY_ID` (section `#guestbook`) → dán giá trị thật vào.
-5. Commit & push — comment box sẽ hoạt động ngay, mỗi lời nhắn là 1 comment trong GitHub Discussions, ai vào trang cũng đọc được.
+**Giới hạn cần biết**: `localStorage` lưu **theo từng trình duyệt/thiết bị** — lời nhắn viết trên điện thoại của bạn sẽ không tự hiện trên máy của người kia, vì trang không có server/database để đồng bộ. Đây là lựa chọn đơn giản nhất, không tốn phí, không cần đăng ký dịch vụ nào.
 
-> Cho đến khi hoàn tất bước trên, trang sẽ hiển thị dòng nhắc "chưa kích hoạt" thay vì khung bình luận.
+Nếu sau này muốn lời nhắn **đồng bộ giữa các thiết bị** (viết trên điện thoại, người kia thấy trên máy tính), cần thêm một backend lưu trữ thật (ví dụ Firebase, Supabase, hoặc một API tự viết) — báo mình khi cần, đây là việc build thêm.
 
 ## Deploy lên GitHub Pages
 
