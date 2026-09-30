@@ -29,13 +29,49 @@ assets/music.mp3      # (tuỳ chọn) nhạc nền — thêm file mp3 vào đâ
 6. **Lý do yêu em** — sửa `data-reason="..."` của từng `.reason-star` (section `#constellation`), có thể thêm/bớt ngôi sao.
 7. **Nhạc nền** (tuỳ chọn) — thêm file `assets/music.mp3`. Nút nốt nhạc góc dưới phải sẽ tự hoạt động.
 
-## Sổ Lưu Bút (Guestbook)
+## Sổ Lưu Bút (Guestbook) — Firebase Firestore
 
-Section **"Sổ Lưu Bút"** là form comment thuần JS, không dùng dịch vụ bên thứ 3 nào, không cần cấu hình hay token gì cả — hoạt động ngay sau khi deploy. Lời nhắn lưu vào `localStorage` của trình duyệt (key `olu_guestbook_entries`), hiển thị ngay bên dưới form, có thể **sửa** hoặc **xoá** từng lời nhắn.
+Section **"Sổ Lưu Bút"** dùng [Firebase Firestore](https://firebase.google.com) — lời nhắn lưu trên cloud, **đồng bộ cho mọi thiết bị/trình duyệt**: Hữu gửi trên điện thoại, Ngân mở máy tính vẫn thấy ngay, và ngược lại. Miễn phí (gói Spark), không cần thẻ tín dụng.
 
-**Giới hạn cần biết**: `localStorage` lưu **theo từng trình duyệt/thiết bị** — lời nhắn viết trên điện thoại sẽ không tự hiện trên máy tính hay máy của người kia, vì trang không có nơi lưu trữ dùng chung. Đây là đánh đổi để giữ mọi thứ đơn giản, miễn phí, không secret nào cần quản lý.
+> **Vì sao không phải localStorage hay GitHub Issue?** localStorage chỉ lưu trên từng máy, hai người sẽ không thấy lời nhắn của nhau — không đúng mục đích ban đầu. Lưu qua GitHub Issue cần nhúng 1 token thật vào code, và GitHub tự chặn việc này (Push Protection) vì token là secret thật. Config Firebase thì khác — theo thiết kế của Google, nó **an toàn để công khai** (bảo mật nằm ở Security Rules, không nằm ở việc giấu config), nên không bị chặn và không rủi ro tương tự.
 
-> Đã thử 2 hướng đồng bộ đa thiết bị (Firebase, và lưu qua GitHub Issue comments) nhưng đều cần hoặc một dịch vụ bên thứ 3 (Firebase), hoặc một secret không thể an toàn để lộ trong code public (GitHub token — bị chính GitHub Push Protection chặn). Nếu sau này vẫn muốn đồng bộ thật, cách khả thi duy nhất không lộ secret là thêm một proxy nhỏ (VD: Cloudflare Worker miễn phí) đứng giữa — báo mình nếu muốn làm.
+### Kích hoạt (một lần, ~5 phút)
+
+1. Vào [console.firebase.google.com](https://console.firebase.google.com) → **Add project** → đặt tên bất kỳ (VD: `ourstory`) → tắt Google Analytics nếu không cần → **Create project**.
+2. Trong project → menu trái **Build → Firestore Database** → **Create database** → chọn **Start in production mode** → chọn region gần (VD: `asia-southeast1`) → **Enable**.
+3. Vào tab **Rules** của Firestore, xoá hết nội dung mặc định, dán đè bằng:
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /guestbook/{entryId} {
+         allow read: if true;
+         allow create: if request.resource.data.name is string
+                       && request.resource.data.name.size() > 0
+                       && request.resource.data.name.size() <= 40
+                       && request.resource.data.message is string
+                       && request.resource.data.message.size() > 0
+                       && request.resource.data.message.size() <= 500;
+         allow update: if request.resource.data.diff(resource.data).affectedKeys()
+                       .hasOnly(['message', 'editedAt']);
+         allow delete: if true;
+       }
+     }
+   }
+   ```
+   → bấm **Publish**.
+4. Về trang chủ project (bấm logo/tên project góc trên trái để quay lại **Project Overview**) → bấm icon **`</>`** (Add app → Web) → đặt tên app bất kỳ (VD: `ourstory-web`) → **Register app** (KHÔNG cần tick "Also set up Firebase Hosting").
+5. Firebase sẽ hiện đoạn code có `const firebaseConfig = { apiKey: "...", authDomain: "...", ... }` → copy nguyên khối đó (hoặc từng giá trị).
+6. Mở file `js/firebase-guestbook.js` trong repo, tìm biến `FIREBASE_CONFIG` ở đầu file, thay 6 giá trị `REPLACE_WITH_...` bằng giá trị thật vừa copy.
+7. Commit & push (hoặc nhờ mình push giúp) — Sổ Lưu Bút sẽ hoạt động ngay, đồng bộ thật giữa các thiết bị.
+
+### Kiểm tra sau khi kích hoạt
+
+- Mở trang trên 2 trình duyệt/thiết bị khác nhau, gửi 1 lời nhắn ở bên này → bên kia phải tự hiện ra sau vài giây (không cần load lại trang) nhờ Firestore realtime.
+- Nếu form vẫn hiện "chưa kích hoạt" và nút Gửi bị mờ → kiểm tra lại còn sót giá trị `REPLACE_WITH_...` nào chưa thay không.
+- Nếu form gửi được nhưng báo lỗi tải/gửi thất bại → thường do Rules ở bước 3 gõ sai hoặc chưa Publish — vào lại Firestore → Rules kiểm tra.
+
+> **Lưu ý bảo mật**: rule ở bước 3 cho phép ai cũng sửa/xoá được lời nhắn (không cần đăng nhập) — phù hợp vì đây là trang riêng tư cho 2 người, ít ai biết đến, không có nút "đăng nhập" nào để phân biệt ai là ai ngoài cái tên tự chọn. Nếu muốn chặt chẽ hơn (chỉ người gửi mới xoá được lời của mình) cần thêm Firebase Authentication — báo mình nếu muốn nâng cấp sau này.
 
 ## Deploy lên GitHub Pages
 
