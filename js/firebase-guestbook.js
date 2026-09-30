@@ -12,12 +12,12 @@
 // token/API key riêng tư như GitHub PAT.
 
 const FIREBASE_CONFIG = {
-  apiKey: 'REPLACE_WITH_API_KEY',
-  authDomain: 'REPLACE_WITH_PROJECT.firebaseapp.com',
-  projectId: 'REPLACE_WITH_PROJECT',
-  storageBucket: 'REPLACE_WITH_PROJECT.appspot.com',
-  messagingSenderId: 'REPLACE_WITH_SENDER_ID',
-  appId: 'REPLACE_WITH_APP_ID',
+  apiKey: 'AIzaSyBvqY0XZHS7iVoYdWkRJK299cTUntXwKdQ',
+  authDomain: 'ourstory-8736c.firebaseapp.com',
+  projectId: 'ourstory-8736c',
+  storageBucket: 'ourstory-8736c.firebasestorage.app',
+  messagingSenderId: '52992033440',
+  appId: '1:52992033440:web:ab65688a977f348c86bfc5',
 };
 
 const isConfigured = !Object.values(FIREBASE_CONFIG).some((v) => String(v).startsWith('REPLACE_WITH'));
@@ -36,11 +36,11 @@ if (!form) {
 
 async function initGuestbook() {
   try {
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js');
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js');
     const {
       getFirestore, collection, addDoc, deleteDoc, doc, updateDoc,
       onSnapshot, query, orderBy, serverTimestamp,
-    } = await import('https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js');
+    } = await import('https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js');
 
     const app = initializeApp(FIREBASE_CONFIG);
     const db = getFirestore(app);
